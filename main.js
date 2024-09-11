@@ -50,3 +50,20 @@ myLibrary.forEach((book) => addBookCard(book))
 
 //console.log(harryPotter.read)
 //const cards = document.querySelectorAll('.card')
+
+const addBook = document.getElementById('addBook')
+const cancel = document.getElementById('cancel')
+const ok = document.getElementById('ok')
+const addBookDialog = document.getElementById('addBookDialog')
+
+addBook.addEventListener('click', function () {
+  addBookDialog.showModal()
+})
+
+cancel.addEventListener('click', function () {
+  addBookDialog.close()
+})
+
+ok.addEventListener('click', function () {
+  const newBook = new Book()
+})

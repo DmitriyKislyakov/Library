@@ -15,6 +15,27 @@
           <button id="addBook">Add book</button>
         </div>
       </div>
+      <dialog id="addBookDialog">
+        <form method="dialog">
+          <section>
+            <p>
+              <label for="title">Book title:</label>
+              <input type="text" id="title" name="title" />
+              <label for="author">Book author:</label>
+              <input type="text" id="author" name="author" />
+              <label for="read">Read book:</label>
+              <select name="read" id="read">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </p>
+          </section>
+          <menu>
+            <button id="ok" type="submit">Add</button>
+            <button id="cancel" type="reset">Cancel</button>
+          </menu>
+        </form>
+      </dialog>
       <div class="cards"></div>
       <div class="footer">
         <p>Dima Kislyakov</p>
