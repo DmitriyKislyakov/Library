@@ -65,5 +65,9 @@ cancel.addEventListener('click', function () {
 })
 
 ok.addEventListener('click', function () {
-  const newBook = new Book()
+  const newBook = new Book(title.value, author.value, read.value)
+  console.log(title.value, author.value, read.value)
+  addBookToLibrary(newBook)
+  addBookCard(newBook)
+  cancel.click()
 })
