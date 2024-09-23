@@ -1,17 +1,33 @@
 const myLibrary = []
 
-function Book(title, author, read) {
+function Book(title, author, read, index = 0) {
   this.title = title
   this.author = author
   this.read = read
+  this.index = index
 }
 
 function isBook(book) {
   if (Object.getPrototypeOf(book) === Book.prototype) return true
 }
 
+/*
+function bookInLibrary(book) {
+  if(myLibrary.includes(book)){
+    alert(`${book} in Library allredy!`)
+  }
+}
+*/
+
+function changeReadStatus(book) {
+  book.read == 'yes' ? (book.read = 'no') : (book.read = 'yes')
+}
+
 function addBookToLibrary(book) {
-  if (isBook(book)) myLibrary.push(book)
+  if (isBook(book)) {
+    myLibrary.push(book)
+    book.index = myLibrary.indexOf(book)
+  }
 }
 
 function addBookCard(book) {
@@ -32,6 +48,22 @@ function addBookCard(book) {
   const read = document.createElement('p')
   read.textContent = `Read: ${book.read}`
   card.appendChild(read)
+  /*
+  const index = document.createElement('p')
+  read.textContent = `Index: ${book.index}`
+  card.appendChild(index)
+*/
+  const btns = document.createElement('div')
+  btns.classList.add('btns')
+  card.appendChild(btns)
+
+  const btnRead = document.createElement('button')
+  btnRead.classList.add('btnRead')
+  btns.appendChild(btnRead)
+
+  const btnDel = document.createElement('button')
+  btnDel.classList.add('btnDel')
+  btns.appendChild(btnDel)
 }
 
 const harryPotter = new Book('Harry Potter', 'Rouling', 'yes')
@@ -64,10 +96,11 @@ cancel.addEventListener('click', function () {
   addBookDialog.close()
 })
 
-ok.addEventListener('click', function () {
+ok.addEventListener('click', function (e) {
   const newBook = new Book(title.value, author.value, read.value)
   console.log(title.value, author.value, read.value)
   addBookToLibrary(newBook)
   addBookCard(newBook)
   cancel.click()
+  e.preventDefault()
 })
