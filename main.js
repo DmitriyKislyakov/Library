@@ -48,22 +48,35 @@ function addBookCard(book) {
   const read = document.createElement('p')
   read.textContent = `Read: ${book.read}`
   card.appendChild(read)
-  /*
-  const index = document.createElement('p')
-  read.textContent = `Index: ${book.index}`
-  card.appendChild(index)
-*/
+  
+  // const index = document.createElement('p')
+  // read.textContent = `Index: ${book.index}`
+  // card.appendChild(index)
+  card.setAttribute('card_id', book.index)
+
   const btns = document.createElement('div')
   btns.classList.add('btns')
   card.appendChild(btns)
 
   const btnRead = document.createElement('button')
   btnRead.classList.add('btnRead')
+  btnRead.setAttribute('read_id', book.index)
   btns.appendChild(btnRead)
+
+  const svgReadNS = './icons/book-open.svg'
+  const svgRead = document.createElement('img');
+   svgRead.src = svgReadNS
+  btnRead.appendChild(svgRead)
 
   const btnDel = document.createElement('button')
   btnDel.classList.add('btnDel')
+  btnDel.setAttribute('del_id', book.index)
   btns.appendChild(btnDel)
+
+  const svgDelNS = './icons/delete-forever.svg'
+  const svgDel = document.createElement('img')
+  svgDel.src = svgDelNS
+  btnDel.appendChild(svgDel)
 }
 
 const harryPotter = new Book('Harry Potter', 'Rouling', 'yes')
@@ -104,3 +117,7 @@ ok.addEventListener('click', function (e) {
   cancel.click()
   e.preventDefault()
 })
+
+const changeRead = document.querySelector('[card_id-attribute]')
+
+
