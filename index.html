@@ -3,37 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculator</title>
+    <title>Library</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
   </head>
   <body>
     <div class="container">
-      <div class="display">0.123456789</div>
-      <div class="buttons">
-        <div class="button AC">AC</div>
-        <div class="button PlusMinus">+/-</div>
-        <div class="button Operator Percent">%</div>
-        <div class="button Operator">/</div>
-
-        <div class="button num">7</div>
-        <div class="button num">8</div>
-        <div class="button num">9</div>
-        <div class="button Operator">*</div>
-
-        <div class="button num">4</div>
-        <div class="button num">5</div>
-        <div class="button num">6</div>
-        <div class="button Operator">-</div>
-
-        <div class="button num">1</div>
-        <div class="button num">2</div>
-        <div class="button num">3</div>
-        <div class="button Operator">+</div>
-
-        <div class="button num Zero">0</div>
-        <div class="button dot">.</div>
-        <div class="button equal">=</div>
+      <div class="header">
+        <div class="Library"><h3>Library</h3></div>
+        <div class="menu">
+          <button id="addBook">Add book</button>
+        </div>
+      </div>
+      <dialog id="addBookDialog">
+        <form method="dialog">
+          <section>
+            <p>
+              <label for="title">*Book title:</label>
+              <input type="text" id="title" name="title" required /><br />
+              <label for="author">*Book author:</label>
+              <input type="text" id="author" name="author" required /><br />
+              <label for="read">Read book:</label>
+              <select name="read" id="read">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </select>
+            </p>
+          </section>
+          <menu>
+            <button id="ok" type="submit">Add</button>
+            <button id="cancel" type="reset">Cancel</button>
+          </menu>
+        </form>
+      </dialog>
+      <div class="cards"></div>
+      <div class="footer">
+        <p>Dima Kislyakov</p>
       </div>
     </div>
   </body>
