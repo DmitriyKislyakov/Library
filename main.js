@@ -1,123 +1,203 @@
-const myLibrary = []
+let a = ''
+let b = ''
+let operator = ''
+let number = ''
+let result = '0'
 
-function Book(title, author, read, index = 0) {
-  this.title = title
-  this.author = author
-  this.read = read
-  this.index = index
+//operator functions
+function add(a, b) {
+  return Math.round((Number(a) + Number(b)) * 100000000) / 100000000
 }
 
-function isBook(book) {
-  if (Object.getPrototypeOf(book) === Book.prototype) return true
+function subtract(a, b) {
+  return Math.round((Number(a) - Number(b)) * 100000000) / 100000000
 }
 
-/*
-function bookInLibrary(book) {
-  if(myLibrary.includes(book)){
-    alert(`${book} in Library allredy!`)
+function multiply(a, b) {
+  return Math.round(Number(a) * Number(b) * 100000000) / 100000000
+}
+
+function divide(a, b) {
+  if (Number(b) == 0) return 'error'
+  return Math.round((Number(a) / Number(b)) * 100000000) / 100000000
+}
+
+function percent(a, b = 1) {
+  console.log('a=', a, 'b=', b, '!b=', !!!b)
+  return Math.round(((Number(a) * Number(b)) / 100) * 100000000) / 100000000
+}
+
+function dotCheck(num) {
+  if (num.includes('.')) return ''
+  if (num == '') return '0.'
+  return '.'
+}
+
+function plusMinusCheck(num) {
+  if (num.includes('-')) {
+    num = num.replace('-', '')
+    return num
   }
+  num = '-' + num
+  return num
+}
+
+const display = document.querySelector('.display')
+
+const btns = document.querySelectorAll('.num')
+btns.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    number = e.target.innerText
+    if (!operator) {
+      a += number
+      display.innerText = a
+    } else {
+      b += number
+      display.innerText = b
+    }
+    console.log('a=', a, 'b=', b, 'o=', operator)
+  })
+})
+
+const operators = document.querySelectorAll('.Operator')
+operators.forEach((oper) => {
+  oper.addEventListener('click', (e) => {
+    operator = e.target.innerText
+    display.innerText = operator
+    b = ''
+    console.log('a=', a, 'b=', b, 'o=', operator)
+  })
+})
+
+const ac = document.querySelector('.AC')
+ac.addEventListener('click', () => {
+  a = b = operator = number = ''
+  result = '0'
+  display.innerText = result
+  console.log('a=', a, 'b=', b, 'o=', operator)
+})
+
+const dot = document.querySelector('.dot')
+const bd = dot.addEventListener('click', () => {
+  if (!operator) {
+    a += dotCheck(a)
+    display.innerText = a
+  } else {
+    b += dotCheck(b)
+    display.innerText = b
+  }
+  console.log('a=', a, 'b=', b, 'o=', operator)
+})
+
+const plusMinus = document.querySelector('.PlusMinus')
+plusMinus.addEventListener('click', () => {
+  if (!operator) {
+    a = plusMinusCheck(a)
+    display.innerText = a
+  } else {
+    b = plusMinusCheck(b)
+    display.innerText = b
+  }
+  console.log('a=', a, 'b=', b, 'o=', operator)
+})
+
+const equal = document.querySelector('.equal')
+equal.addEventListener('click', () => {
+  switch (operator) {
+    case '+':
+      b != ''
+        ? ((result = String(add(a, b))), console.log(result))
+        : ((result = String(add(a, a))), console.log(result))
+      break
+    case '-':
+      b != ''
+        ? ((result = String(subtract(a, b))), console.log(result))
+        : ((result = String(subtract(a, a))), console.log(result))
+      break
+    case '*':
+      b != ''
+        ? ((result = String(multiply(a, b))), console.log(result))
+        : ((result = String(multiply(a, a))), console.log(result))
+      break
+    case '/':
+      b != ''
+        ? ((result = String(divide(a, b))), console.log(result))
+        : ((result = String(divide(a, a))), console.log(result))
+      break
+    case '%':
+      b != ''
+        ? ((result = String(percent(a, b))), console.log(result))
+        : ((result = String(percent(a))), console.log(result))
+      break
+  }
+  if (result.length > 11) {
+    result = 'e' + result.slice(0, 10)
+  }
+
+  display.innerText = result
+  a = result
+  console.log('a=', a, 'b=', b, 'o=', operator, 'res=', result)
+})
+
+//add keyboard
+/*
+class KeyControls {
+  constructor(
+    keyList = [
+      'Numpad0',
+      'Numpad1',
+      'Numpad2',
+      'Numpad3',
+      'Numpad4',
+      'Numpad5',
+      'Numpad6',
+      'Numpad7',
+      'Numpad8',
+      'Numpad9',
+      'NumpadSubtract',
+      'NumpadAdd',
+      'NumpadMultiply',
+      'NumpadDivide',
+      'NumpadDecimal',
+      'NumpadEnter',
+      'Backspace',
+    ]
+  ) {
+    this.keyList = keyList
+    this.keys = {}
+
+    addEventListener('keydown', (e) => this.changeState(e))
+    addEventListener('keyup', (e) => this.changeState(e))
+  }
+  changeState(e) {
+    if (!this.keyList.includes(e.code)) return
+    this.keys[e.code] = e.type === 'keydown' ? true : false
+    console.log(this.keys)
+  }
+}
+
+this.keyboard = new KeyControls([
+  'Numpad0',
+  'Numpad1',
+  'Numpad2',
+  'Numpad3',
+  'Numpad4',
+  'Numpad5',
+  'Numpad6',
+  'Numpad7',
+  'Numpad8',
+  'Numpad9',
+  'NumpadSubtract',
+  'NumpadAdd',
+  'NumpadMultiply',
+  'NumpadDivide',
+  'NumpadDecimal',
+  'NumpadEnter',
+  'Backspace',
+])
+this.keys = this.keyboard.keys
+
+if (this.keys.NumpadDecimal) {
+  this.bd
 }
 */
-
-function changeReadStatus(book) {
-  book.read == 'yes' ? (book.read = 'no') : (book.read = 'yes')
-}
-
-function addBookToLibrary(book) {
-  if (isBook(book)) {
-    myLibrary.push(book)
-    book.index = myLibrary.indexOf(book)
-  }
-}
-
-function addBookCard(book) {
-  const cards = document.querySelector('.cards')
-
-  const card = document.createElement('div')
-  card.classList.add('card')
-  cards.appendChild(card)
-
-  const title = document.createElement('h3')
-  title.textContent = book.title
-  card.appendChild(title)
-
-  const author = document.createElement('p')
-  author.textContent = `Writing by ${book.author}`
-  card.appendChild(author)
-
-  const read = document.createElement('p')
-  read.textContent = `Read: ${book.read}`
-  card.appendChild(read)
-  
-  // const index = document.createElement('p')
-  // read.textContent = `Index: ${book.index}`
-  // card.appendChild(index)
-  card.setAttribute('card_id', book.index)
-
-  const btns = document.createElement('div')
-  btns.classList.add('btns')
-  card.appendChild(btns)
-
-  const btnRead = document.createElement('button')
-  btnRead.classList.add('btnRead')
-  btnRead.setAttribute('read_id', book.index)
-  btns.appendChild(btnRead)
-
-  const svgReadNS = './icons/book-open.svg'
-  const svgRead = document.createElement('img');
-   svgRead.src = svgReadNS
-  btnRead.appendChild(svgRead)
-
-  const btnDel = document.createElement('button')
-  btnDel.classList.add('btnDel')
-  btnDel.setAttribute('del_id', book.index)
-  btns.appendChild(btnDel)
-
-  const svgDelNS = './icons/delete-forever.svg'
-  const svgDel = document.createElement('img')
-  svgDel.src = svgDelNS
-  btnDel.appendChild(svgDel)
-}
-
-const harryPotter = new Book('Harry Potter', 'Rouling', 'yes')
-
-addBookToLibrary(harryPotter)
-
-const darkTower = new Book('Dark Tower', 'King', 'yes')
-
-addBookToLibrary(darkTower)
-
-const hobbit = new Book('Hobbit', 'Tolkien', 'no')
-
-myLibrary.forEach((book) => addBookCard(book))
-
-//addBookCard(harryPotter)
-
-//console.log(harryPotter.read)
-//const cards = document.querySelectorAll('.card')
-
-const addBook = document.getElementById('addBook')
-const cancel = document.getElementById('cancel')
-const ok = document.getElementById('ok')
-const addBookDialog = document.getElementById('addBookDialog')
-
-addBook.addEventListener('click', function () {
-  addBookDialog.showModal()
-})
-
-cancel.addEventListener('click', function () {
-  addBookDialog.close()
-})
-
-ok.addEventListener('click', function (e) {
-  const newBook = new Book(title.value, author.value, read.value)
-  console.log(title.value, author.value, read.value)
-  addBookToLibrary(newBook)
-  addBookCard(newBook)
-  cancel.click()
-  e.preventDefault()
-})
-
-const changeRead = document.querySelector('[card_id-attribute]')
-
-
