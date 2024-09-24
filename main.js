@@ -52,7 +52,7 @@ function addBookCard(book) {
   // const index = document.createElement('p')
   // read.textContent = `Index: ${book.index}`
   // card.appendChild(index)
-  card.setAttribute('card_id', book.index)
+  card.setAttribute('data-id', book.index)
 
   const btns = document.createElement('div')
   btns.classList.add('btns')
@@ -70,7 +70,7 @@ function addBookCard(book) {
 
   const btnDel = document.createElement('button')
   btnDel.classList.add('btnDel')
-  btnDel.setAttribute('del_id', book.index)
+  btnDel.setAttribute('data-delete', book.index)
   btns.appendChild(btnDel)
 
   const svgDelNS = './icons/delete-forever.svg'
@@ -117,3 +117,23 @@ ok.addEventListener('click', function (e) {
   cancel.click()
   e.preventDefault()
 })
+
+const btnDel = document.querySelectorAll('.btnDel')
+console.log(btnDel);
+
+
+btnDel.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const idBtnDelete = btn.dataset.delete;
+    
+    const cards = document.querySelectorAll('.card')
+
+    cards.forEach(card => {
+      if (card.dataset.id === idBtnDelete) card.remove();
+    })
+    
+ })
+})
+
+
+// btnDel.addEventListener('click', (e) => console.log(e.target.dataset.id));
