@@ -30,6 +30,36 @@ function addBookToLibrary(book) {
   }
 }
 
+function deleteBook() {
+  const btnDel = document.querySelectorAll('.btnDel')
+  btnDel.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const idBtnDelete = btn.dataset.delete
+      const cards = document.querySelectorAll('.card')
+      cards.forEach((card) => {
+        if (card.dataset.id === idBtnDelete) card.remove()
+      })
+      myLibrary.splice(idBtnDelete, 1)
+    })
+  })
+}
+
+function changeRead() {
+  const btnRead = document.querySelectorAll('.btnRead')
+  btnRead.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const idBtnRead = btn.dataset.read
+      const cards = document.querySelectorAll('.card')
+      cards.forEach((card) => {
+        if (card.dataset.id === idBtnRead) {
+          changeReadStatus(myLibrary[idBtnRead])
+          console.log('++++++++')
+        }
+      })
+    })
+  })
+}
+
 function addBookCard(book) {
   const cards = document.querySelector('.cards')
 
@@ -60,8 +90,9 @@ function addBookCard(book) {
 
   const btnRead = document.createElement('button')
   btnRead.classList.add('btnRead')
-  btnRead.setAttribute('read_id', book.index)
+  btnRead.setAttribute('data-read', book.index)
   btns.appendChild(btnRead)
+  changeRead()
 
   const svgReadNS = './icons/book-open.svg'
   const svgRead = document.createElement('img')
@@ -72,6 +103,7 @@ function addBookCard(book) {
   btnDel.classList.add('btnDel')
   btnDel.setAttribute('data-delete', book.index)
   btns.appendChild(btnDel)
+  deleteBook()
 
   const svgDelNS = './icons/delete-forever.svg'
   const svgDel = document.createElement('img')
@@ -111,29 +143,8 @@ cancel.addEventListener('click', function () {
 
 ok.addEventListener('click', function (e) {
   const newBook = new Book(title.value, author.value, read.value)
-  console.log(title.value, author.value, read.value)
   addBookToLibrary(newBook)
   addBookCard(newBook)
   cancel.click()
   e.preventDefault()
 })
-
-const btnDel = document.querySelectorAll('.btnDel')
-console.log(btnDel);
-
-
-btnDel.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const idBtnDelete = btn.dataset.delete;
-    
-    const cards = document.querySelectorAll('.card')
-
-    cards.forEach(card => {
-      if (card.dataset.id === idBtnDelete) card.remove();
-    })
-    
- })
-})
-
-
-// btnDel.addEventListener('click', (e) => console.log(e.target.dataset.id));
