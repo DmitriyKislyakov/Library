@@ -1,10 +1,12 @@
 const myLibrary = []
+let count = 0
 
-function Book(title, author, read, index = 0) {
+function Book(title, author, read) {
   this.title = title
   this.author = author
   this.read = read
-  this.index = index
+  this.index = count
+  count++
 }
 
 function isBook(book) {
@@ -24,10 +26,7 @@ function changeReadStatus(book) {
 }
 
 function addBookToLibrary(book) {
-  if (isBook(book)) {
-    myLibrary.push(book)
-    book.index = myLibrary.indexOf(book)
-  }
+  if (isBook(book)) myLibrary.push(book)
 }
 
 function deleteBook() {
@@ -44,6 +43,15 @@ function deleteBook() {
   })
 }
 
+// function deleteBook(book) {
+//   const btnDel = document.querySelectorAll('.btnDel')
+//   btnDel[book.index].addEventListener('click', () => {
+//     const cards = document.querySelectorAll('.card')
+//     cards[book.index].remove()
+//     myLibrary.splice(book.index, 1)
+//   })
+// }
+
 function changeRead() {
   const btnRead = document.querySelectorAll('.btnRead')
   btnRead.forEach((btn) => {
@@ -53,12 +61,20 @@ function changeRead() {
       cards.forEach((card) => {
         if (card.dataset.id === idBtnRead) {
           changeReadStatus(myLibrary[idBtnRead])
-          console.log('++++++++')
+          console.log(myLibrary[idBtnRead].read, read)
         }
       })
     })
   })
 }
+
+// function changeRead(book) {
+//   const btnRead = document.querySelectorAll('.btnRead')
+//   btnRead[book.index].addEventListener('click', () => {
+//     changeReadStatus(myLibrary[book.index])
+//     console.log(myLibrary[book.index])
+//   })
+// }
 
 function addBookCard(book) {
   const cards = document.querySelector('.cards')
@@ -77,6 +93,7 @@ function addBookCard(book) {
 
   const read = document.createElement('p')
   read.textContent = `Read: ${book.read}`
+  read.setAttribute('data-isRead', book.index)
   card.appendChild(read)
 
   // const index = document.createElement('p')
