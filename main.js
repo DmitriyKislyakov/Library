@@ -1,4 +1,4 @@
-const myLibrary = []
+let myLibrary = []
 let count = 0
 
 function Book(title, author, read) {
@@ -13,68 +13,55 @@ function isBook(book) {
   if (Object.getPrototypeOf(book) === Book.prototype) return true
 }
 
-/*
-function bookInLibrary(book) {
-  if(myLibrary.includes(book)){
-    alert(`${book} in Library allredy!`)
-  }
-}
-*/
+
+// function bookInLibrary(book) {
+//   if(myLibrary.includes(book)){
+//     alert(`${book} in Library allredy!`)
+//   }
+// }
+
 
 function changeReadStatus(book) {
   book.read == 'yes' ? (book.read = 'no') : (book.read = 'yes')
 }
 
 function addBookToLibrary(book) {
-  if (isBook(book)) myLibrary.push(book)
+  if (isBook(book)) {
+    myLibrary.push(book)
+  }
 }
 
-function deleteBook() {
+function showAllCard(){
+  myLibrary.forEach((book) => addBookCard(book))
+}
+
+function deleteBook(book) {
   const btnDel = document.querySelectorAll('.btnDel')
   btnDel.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const idBtnDelete = btn.dataset.delete
-      const cards = document.querySelectorAll('.card')
-      cards.forEach((card) => {
-        if (card.dataset.id === idBtnDelete) card.remove()
+    if (btn.dataset.delete == book.index){
+      btn.addEventListener('click', () => {
+        const cards = document.querySelectorAll('.card')
+        myLibrary = myLibrary.filter(e => e.index != book.index)
+        cards.forEach((card)=> card.remove())
+        showAllCard()
       })
-      myLibrary.splice(idBtnDelete, 1)
-    })
+    }
   })
 }
 
-// function deleteBook(book) {
-//   const btnDel = document.querySelectorAll('.btnDel')
-//   btnDel[book.index].addEventListener('click', () => {
-//     const cards = document.querySelectorAll('.card')
-//     cards[book.index].remove()
-//     myLibrary.splice(book.index, 1)
-//   })
-// }
-
-function changeRead() {
+function changeRead(book) {
   const btnRead = document.querySelectorAll('.btnRead')
   btnRead.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const idBtnRead = btn.dataset.read
-      const cards = document.querySelectorAll('.card')
-      cards.forEach((card) => {
-        if (card.dataset.id === idBtnRead) {
-          changeReadStatus(myLibrary[idBtnRead])
-          console.log(myLibrary[idBtnRead].read, read)
-        }
+    if(btn.dataset.read == book.index){
+      btn.addEventListener('click', () => {
+        changeReadStatus(book)
+        const cards = document.querySelectorAll('.card')
+        cards.forEach((card) => card.remove())
+        showAllCard()
       })
-    })
+    }
   })
 }
-
-// function changeRead(book) {
-//   const btnRead = document.querySelectorAll('.btnRead')
-//   btnRead[book.index].addEventListener('click', () => {
-//     changeReadStatus(myLibrary[book.index])
-//     console.log(myLibrary[book.index])
-//   })
-// }
 
 function addBookCard(book) {
   const cards = document.querySelector('.cards')
@@ -93,7 +80,6 @@ function addBookCard(book) {
 
   const read = document.createElement('p')
   read.textContent = `Read: ${book.read}`
-  read.setAttribute('data-isRead', book.index)
   card.appendChild(read)
 
   // const index = document.createElement('p')
@@ -109,7 +95,6 @@ function addBookCard(book) {
   btnRead.classList.add('btnRead')
   btnRead.setAttribute('data-read', book.index)
   btns.appendChild(btnRead)
-  changeRead()
 
   const svgReadNS = './icons/book-open.svg'
   const svgRead = document.createElement('img')
@@ -120,12 +105,14 @@ function addBookCard(book) {
   btnDel.classList.add('btnDel')
   btnDel.setAttribute('data-delete', book.index)
   btns.appendChild(btnDel)
-  deleteBook()
 
   const svgDelNS = './icons/delete-forever.svg'
   const svgDel = document.createElement('img')
   svgDel.src = svgDelNS
   btnDel.appendChild(svgDel)
+
+  changeRead(book)
+  deleteBook(book)
 }
 
 const harryPotter = new Book('Harry Potter', 'Rouling', 'yes')
@@ -137,13 +124,6 @@ const darkTower = new Book('Dark Tower', 'King', 'yes')
 addBookToLibrary(darkTower)
 
 const hobbit = new Book('Hobbit', 'Tolkien', 'no')
-
-myLibrary.forEach((book) => addBookCard(book))
-
-//addBookCard(harryPotter)
-
-//console.log(harryPotter.read)
-//const cards = document.querySelectorAll('.card')
 
 const addBook = document.getElementById('addBook')
 const cancel = document.getElementById('cancel')
@@ -165,3 +145,5 @@ ok.addEventListener('click', function (e) {
   cancel.click()
   e.preventDefault()
 })
+
+showAllCard()
