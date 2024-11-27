@@ -1,25 +1,25 @@
 let myLibrary = []
-let count = 0
 
-function Book(title, author, read) {
-  this.title = title
-  this.author = author
-  this.read = read
-  this.index = count
-  count++
+class Book {
+  count = 0
+  constructor(title, author, read) {
+    this.title = title
+    this.author = author
+    this.read = read
+    this.index = count
+    count++
+  }
 }
 
 function isBook(book) {
   if (Object.getPrototypeOf(book) === Book.prototype) return true
 }
 
-
 // function bookInLibrary(book) {
 //   if(myLibrary.includes(book)){
 //     alert(`${book} in Library allredy!`)
 //   }
 // }
-
 
 function changeReadStatus(book) {
   book.read == 'yes' ? (book.read = 'no') : (book.read = 'yes')
@@ -31,18 +31,18 @@ function addBookToLibrary(book) {
   }
 }
 
-function showAllCard(){
+function showAllCard() {
   myLibrary.forEach((book) => addBookCard(book))
 }
 
 function deleteBook(book) {
   const btnDel = document.querySelectorAll('.btnDel')
   btnDel.forEach((btn) => {
-    if (btn.dataset.delete == book.index){
+    if (btn.dataset.delete == book.index) {
       btn.addEventListener('click', () => {
         const cards = document.querySelectorAll('.card')
-        myLibrary = myLibrary.filter(e => e.index != book.index)
-        cards.forEach((card)=> card.remove())
+        myLibrary = myLibrary.filter((e) => e.index != book.index)
+        cards.forEach((card) => card.remove())
         showAllCard()
       })
     }
@@ -52,7 +52,7 @@ function deleteBook(book) {
 function changeRead(book) {
   const btnRead = document.querySelectorAll('.btnRead')
   btnRead.forEach((btn) => {
-    if(btn.dataset.read == book.index){
+    if (btn.dataset.read == book.index) {
       btn.addEventListener('click', () => {
         changeReadStatus(book)
         const cards = document.querySelectorAll('.card')
