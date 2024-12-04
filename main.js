@@ -1,7 +1,7 @@
+let count = 0
 let myLibrary = []
 
 class Book {
-  count = 0
   constructor(title, author, read) {
     this.title = title
     this.author = author
@@ -9,20 +9,14 @@ class Book {
     this.index = count
     count++
   }
+
+  changeReadStatus() {
+    this.read == 'yes' ? (this.read = 'no') : (this.read = 'yes')
+  }
 }
 
 function isBook(book) {
   if (Object.getPrototypeOf(book) === Book.prototype) return true
-}
-
-// function bookInLibrary(book) {
-//   if(myLibrary.includes(book)){
-//     alert(`${book} in Library allredy!`)
-//   }
-// }
-
-function changeReadStatus(book) {
-  book.read == 'yes' ? (book.read = 'no') : (book.read = 'yes')
 }
 
 function addBookToLibrary(book) {
@@ -54,7 +48,7 @@ function changeRead(book) {
   btnRead.forEach((btn) => {
     if (btn.dataset.read == book.index) {
       btn.addEventListener('click', () => {
-        changeReadStatus(book)
+        book.changeReadStatus()
         const cards = document.querySelectorAll('.card')
         cards.forEach((card) => card.remove())
         showAllCard()
@@ -82,9 +76,6 @@ function addBookCard(book) {
   read.textContent = `Read: ${book.read}`
   card.appendChild(read)
 
-  // const index = document.createElement('p')
-  // read.textContent = `Index: ${book.index}`
-  // card.appendChild(index)
   card.setAttribute('data-id', book.index)
 
   const btns = document.createElement('div')
